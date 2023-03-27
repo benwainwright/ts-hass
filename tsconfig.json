@@ -1,0 +1,22 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "inlineSourceMap": true, 
+    // we recommend using a current ES version
+    "target": "es2020",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@core": ["src/libs/core/index.ts"],
+      "@entities": ["src/libs/entities/index.ts"],
+      "@types": ["src/libs/types/index.ts"],
+      "@utils": ["src/libs/utils/index.ts"]
+    }
+  }
+}
