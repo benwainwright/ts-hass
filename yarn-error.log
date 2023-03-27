@@ -1,0 +1,41 @@
+Arguments: 
+  /Users/benwainwright1/.nvm/versions/node/v16.15.1/bin/node /usr/local/bin/yarn add dotenv @types/jest @types/node @tsconfig/recommended @homeassistant-ws isomorphic-ws jest tsconfig-paths tslog typescript
+
+PATH: 
+  /Users/benwainwright1/.nvm/versions/node/v16.15.1/bin:/Users/benwainwright1/.bun/bin:/usr/local/opt/openjdk/bin:/usr/local/opt/curl/bin:/usr/local/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/benwainwright1/.cargo/bin:/Applications/kitty.app/Contents/MacOS:/Users/benwainwright1/dotfiles/config/cinch/bin:/Users/benwainwright1/dotfiles/config/tmux/bin:/Users/benwainwright1/.fzf/bin
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  16.15.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.npmjs.org/@homeassistant-ws: Request "https://registry.npmjs.org/@homeassistant-ws" returned a 405
+      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:67001:18)
+      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140763:22)
+      at Request.emit (node:events:527:28)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141735:10)
+      at Request.emit (node:events:527:28)
+      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141657:12)
+      at Object.onceWrapper (node:events:641:28)
+      at IncomingMessage.emit (node:events:539:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  {
+    "name": "hass-ts",
+    "version": "0.0.1",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
