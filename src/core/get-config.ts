@@ -19,9 +19,13 @@ import dotEnv from "dotenv";
 export const getConfig = (): HassConfig => {
   dotEnv.config();
   const supervisorToken = process.env[SUPERVISOR_TOKEN_ENV];
-  const path = supervisorToken ? `/core/websocket` : getEnv(HASS_PATH_ENV);
+
+  const path = supervisorToken
+    ? `/core/websocket`
+    : process.env[HASS_PATH_ENV] ?? `/api/websocket`;
+
   const host = supervisorToken ? `supervisor` : getEnv(HASS_HOST_ENV);
-  const port = supervisorToken ? undefined : getEnv(HASS_PORT_ENV);
+  const port = supervisorToken ? undefined : process.env[HASS_PORT_ENV] ?? 8123;
   const token = supervisorToken || getEnv(HASS_TOKEN_ENV);
 
   return { host, port: port ? Number(port) : undefined, token, path };
