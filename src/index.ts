@@ -3,7 +3,6 @@ export { Entity } from "./core/entity";
 export { HomeAssistantApi } from "./core/home-assistant-api";
 export { Calendar } from "./entities/calendar";
 export { Climate } from "./entities/climate";
-export { Expand } from "./types/expand";
 export { BaseState } from "./types/base-state";
 export { CalendarEvent } from "./types/calendar-event";
 export { CalendarState } from "./types/calendar-state";

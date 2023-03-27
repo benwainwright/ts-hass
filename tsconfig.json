@@ -9,8 +9,7 @@
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
-    "inlineSourceMap": true, 
-    // we recommend using a current ES version
+    "inlineSourceMap": true,
     "target": "es2020",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,6 +19,7 @@
       "@entities": ["src/entities/index.ts"],
       "@types": ["src/types/index.ts"],
       "@utils": ["src/utils/index.ts"]
-    }
+    },
+    "plugins": [{ "transform": "@kadeluxe/ts-transform-paths" }]
   }
 }
