@@ -11,7 +11,7 @@ import {
 import dotEnv from "dotenv";
 
 /**
- * Get config from environment
+ * Get config from execution environment
  *
  * Note, if called as part of a Home Assistant addon, you don't need
  * to explicitly supply any environment variables
