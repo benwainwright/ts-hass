@@ -130,7 +130,15 @@ export class Client {
 
   public async init() {
     await this.hassApi.init();
-    this.hassApi.get.on("state_changed", this.stateChangedListener.bind(this));
+    this.hassApi.get.on("state_changed", (event) => {
+      try {
+        this.stateChangedListener(event);
+      } catch (error) {
+        if (error instanceof Error) {
+          this.logger.error(error.message);
+        }
+      }
+    });
     await this.loadStates();
     this.logger.info("Hass client initialised");
   }
