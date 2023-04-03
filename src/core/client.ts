@@ -36,7 +36,7 @@ export class Client {
 
   public getEntity<T extends IdType>(id: T): EntityType<T> {
     if (Climate.isId(id)) {
-      return new Climate<`climate.${string}`>(id, this) as EntityType<T>
+      return new Climate<`climate.${string}`>(id, this) as EntityType<T>;
     }
 
     if (Calendar.isId(id)) {
