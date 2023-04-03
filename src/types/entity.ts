@@ -21,3 +21,12 @@ type EntityWithMatchingId<
 > = Y extends MatchesId<T, Y> ? InstanceType<Y> : never;
 
 export type EntityType<T extends IdType> = EntityWithMatchingId<T, List>;
+
+export type Entities<T extends ReadonlyArray<IdType>> = T extends [
+  infer First extends IdType,
+  ...infer Rest extends IdType[]
+]
+  ? [EntityType<First>, ...Entities<Rest>]
+  : T extends [infer Final extends IdType]
+  ? [EntityType<Final>]
+  : [];
