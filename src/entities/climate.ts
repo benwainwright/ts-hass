@@ -1,7 +1,7 @@
 import { Client, BaseEntity } from "@core";
 import { ClimateState } from "../types/climate-state";
 import { ServiceCommand } from "../core/service-command";
-import { IdTypes } from "src/types/entity";
+import { EntityType, IdType } from "../types/entity";
 
 type StateChangeCallback = (
   oldState: ClimateState,
@@ -14,6 +14,12 @@ type SetTemperatureArgs = {
   target_temp_low?: number;
   hvac_mode?: string;
 };
+
+export type Expand<T> = T extends object
+  ? T extends infer O
+    ? { [K in keyof O]: Expand<O[K]> }
+    : never
+  : T;
 
 export class Climate<I extends `climate.${string}`> {
   private entity: BaseEntity<I>;
@@ -43,7 +49,7 @@ export class Climate<I extends `climate.${string}`> {
     );
   }
 
-  public static isId<T extends IdTypes>(id: T): id is `climate.${string}` {
+  public static isId(id: IdType): id is `climate.${string}` {
     return id.startsWith("climate.");
   }
 

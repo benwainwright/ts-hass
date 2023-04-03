@@ -1,6 +1,6 @@
 import { Client, BaseEntity } from "@core";
 import { CalendarEvent, CalendarState } from "@types";
-import { IdTypes } from "../types/entity";
+import { IdType } from "../types/entity";
 
 type StartEventCallback = (eventDetails: CalendarEvent) => void;
 type FinishEventCallback = () => void;
@@ -12,7 +12,7 @@ export class Calendar<I extends `calendar.${string}`> {
     this.entity = new BaseEntity(this.id, client);
   }
 
-  public static isId(id: IdTypes): id is `calendar.${string}` {
+  public static isId(id: IdType): id is `calendar.${string}` {
     return id.startsWith("calendar.");
   }
 
