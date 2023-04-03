@@ -1,6 +1,6 @@
 import { Calendar, Climate } from "@entities";
 
-type List =
+export type Entity =
   | typeof Calendar<`calendar.${string}`>
   | typeof Climate<`climate.${string}`>;
 
@@ -8,7 +8,7 @@ type GetIdTypes<T extends abstract new (...args: any[]) => any> = T extends any
   ? ConstructorParameters<T>[0]
   : never;
 
-export type IdType = GetIdTypes<List>;
+export type IdType = GetIdTypes<Entity>;
 
 type MatchesId<
   T extends IdType,
@@ -20,7 +20,7 @@ type EntityWithMatchingId<
   Y extends abstract new (...args: any[]) => any
 > = Y extends MatchesId<T, Y> ? InstanceType<Y> : never;
 
-export type EntityType<T extends IdType> = EntityWithMatchingId<T, List>;
+export type EntityType<T extends IdType> = EntityWithMatchingId<T, Entity>;
 
 export type Entities<T extends ReadonlyArray<IdType>> = T extends [
   infer First extends IdType,

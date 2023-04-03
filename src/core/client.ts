@@ -3,13 +3,14 @@ import { HomeAssistantApi } from "./home-assistant-api";
 import { HassConfig, Logger, RawState, State, StateChangedEvent } from "@types";
 import { removeItemAtIndex } from "@utils";
 import { getConfig } from "./get-config";
-import { Entities, EntityType, IdType } from "../types/entity";
+import { Entities, Entity, EntityType, IdType } from "../types/entity";
 import { Calendar, Climate } from "@entities";
 
 type StateLoadCallback = (state: State) => void;
 type StateChangedCallback = (oldState: State, newState: State) => void;
 
 export class Client {
+  private entities: Record<IdType, unknown> = {};
   private hassApi: HomeAssistantApi;
   private states: Map<string, State> = new Map<string, State>();
   private timers: NodeJS.Timer[] = [];
@@ -35,12 +36,27 @@ export class Client {
   }
 
   public getEntity<T extends IdType>(id: T): EntityType<T> {
+    if (id in this.entities) {
+      return this.entities[id] as EntityType<T>;
+    }
+
     if (Climate.isId(id)) {
-      return new Climate<`climate.${string}`>(id, this) as EntityType<T>;
+      const climate = new Climate<`climate.${string}`>(
+        id,
+        this
+      ) as EntityType<T>;
+
+      this.entities[id] = climate;
+      return climate;
     }
 
     if (Calendar.isId(id)) {
-      return new Calendar<`calendar.${string}`>(id, this) as EntityType<T>;
+      const calendar = new Calendar<`calendar.${string}`>(
+        id,
+        this
+      ) as EntityType<T>;
+      this.entities[id] = calendar;
+      return calendar;
     }
 
     throw new Error("Unrecognised ID");
