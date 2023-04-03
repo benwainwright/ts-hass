@@ -3,6 +3,8 @@ import { HomeAssistantApi } from "./home-assistant-api";
 import { HassConfig, Logger, RawState, State, StateChangedEvent } from "@types";
 import { removeItemAtIndex } from "@utils";
 import { getConfig } from "./get-config";
+import { EntityType, IdTypes } from "../types/entity";
+import { Calendar, Climate } from "@entities";
 
 type StateLoadCallback = (state: State) => void;
 type StateChangedCallback = (oldState: State, newState: State) => void;
@@ -30,6 +32,18 @@ export class Client {
     const client = new Client(config, logger);
     await client.init();
     return client;
+  }
+
+  public getEntity<T extends IdTypes>(id: T): EntityType<T> {
+    if (Climate.isId(id)) {
+      return new Climate(id, this) as EntityType<T>;
+    }
+
+    if (Calendar.isId(id)) {
+      return new Calendar(id, this) as EntityType<T>;
+    }
+
+    throw new Error("Unrecognised ID");
   }
 
   private constructor(private hassConfig: HassConfig, private logger: Logger) {

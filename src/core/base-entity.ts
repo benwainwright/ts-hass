@@ -1,7 +1,7 @@
 import { Client } from "./client";
 import { State } from "@types";
 
-export class Entity<I extends string> {
+export class BaseEntity<I extends string> {
   private _state: State;
   private stateLoadedListener = this.onStateLoaded.bind(this);
 

@@ -1,5 +1,5 @@
 export { Client } from "./core/client";
-export { Entity } from "./core/entity";
+export { BaseEntity } from "./core/base-entity";
 export { HomeAssistantApi } from "./core/home-assistant-api";
 export { Calendar } from "./entities/calendar";
 export { Climate } from "./entities/climate";

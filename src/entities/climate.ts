@@ -1,6 +1,7 @@
-import { Client, Entity } from "@core";
+import { Client, BaseEntity } from "@core";
 import { ClimateState } from "../types/climate-state";
 import { ServiceCommand } from "../core/service-command";
+import { IdTypes } from "src/types/entity";
 
 type StateChangeCallback = (
   oldState: ClimateState,
@@ -15,14 +16,14 @@ type SetTemperatureArgs = {
 };
 
 export class Climate<I extends `climate.${string}`> {
-  private entity: Entity<I>;
+  private entity: BaseEntity<I>;
   private setHvacModeCommand: ServiceCommand<"climate.set_hvac_mode">;
   private setPresetModeCommand: ServiceCommand<"climate.set_preset_mode">;
   private setAuxHeatCommand: ServiceCommand<"climate.set_aux_heat">;
   private setTemperatureCommand: ServiceCommand<"climate.set_temperature">;
 
   constructor(private id: I, client: Client) {
-    this.entity = new Entity(this.id, client);
+    this.entity = new BaseEntity(this.id, client);
 
     this.setAuxHeatCommand = new ServiceCommand("climate.set_aux_heat", client);
 
@@ -40,6 +41,10 @@ export class Climate<I extends `climate.${string}`> {
       "climate.set_temperature",
       client
     );
+  }
+
+  public static isId<T extends IdTypes>(id: T): id is `climate.${string}` {
+    return id.startsWith("climate.");
   }
 
   public async setTemperature(args: SetTemperatureArgs) {

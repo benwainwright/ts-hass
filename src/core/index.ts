@@ -6,7 +6,7 @@ export {
   HASS_PATH_ENV,
   FIVE_MINUTES,
 } from "./constants";
-export { Entity } from "./entity";
+export { BaseEntity } from "./base-entity";
 export { HomeAssistantApi } from "./home-assistant-api";
 export { logger } from "./logger";
 export { getConfig } from "./get-config";
