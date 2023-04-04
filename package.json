@@ -41,8 +41,7 @@
         "@semantic-release/git",
         {
           "assets": [
-            "package.json",
-            "RELEASE-NOTES.md"
+            "package.json"
           ]
         }
       ]
