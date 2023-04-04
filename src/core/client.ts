@@ -59,7 +59,7 @@ export class Client {
       return calendar;
     }
 
-    throw new Error("Unrecognised ID");
+    throw new Error("Unrecognised ID!");
   }
 
   public getEntities<T extends Record<string, IdType>>(
