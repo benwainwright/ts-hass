@@ -22,15 +22,11 @@ type EntityWithMatchingId<
 
 export type EntityType<T extends IdType> = EntityWithMatchingId<T, Entity>;
 
-export type Entities<T extends Record<string, IdType>> = {
-  [K in keyof T]: EntityType<T[K]>;
-};
-
-// T extends [
-// infer First extends IdType,
-// ...infer Rest extends IdType[]
-// ]
-// ? [EntityType<First>, ...Entities<Rest>]
-// : T extends [infer Final extends IdType]
-// ? [EntityType<Final>]
-// : [];
+export type Entities<T extends ReadonlyArray<IdType>> = T extends [
+  infer First extends IdType,
+  ...infer Rest extends IdType[]
+]
+  ? [EntityType<First>, ...Entities<Rest>]
+  : T extends [infer Final extends IdType]
+  ? [EntityType<Final>]
+  : [];

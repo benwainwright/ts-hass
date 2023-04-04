@@ -59,15 +59,11 @@ export class Client {
       return calendar;
     }
 
-    throw new Error("Unrecognised ID!");
+    throw new Error("Unrecognised ID");
   }
 
-  public getEntities<T extends Record<string, IdType>>(
-    ids: Record<string, IdType>
-  ): Entities<T> {
-    return Object.fromEntries(
-      Object.entries(ids).map(([name, id]) => [name, this.getEntity(id)])
-    ) as Entities<T>;
+  public getEntities<T extends ReadonlyArray<IdType>>(ids: Record<string, IdType>): Entities<T> {
+    return ids.map((id) => this.getEntity(id)) as Entities<T>;
   }
 
   private constructor(private hassConfig: HassConfig, private logger: Logger) {
