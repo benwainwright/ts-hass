@@ -13,3 +13,4 @@ export { StateContext } from "./types/state-context";
 export { State } from "./types/state";
 export { Logger } from "./types/logger";
 export { HassConfig } from "./types/hass-config";
+export { IdType, EntityType } from "./types/entity";
