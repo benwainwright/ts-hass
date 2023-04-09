@@ -1,7 +1,6 @@
 import { Client, BaseEntity } from "@core";
 import { ClimateState } from "../types/states/climate-state";
 import { IdType } from "../types/entity";
-import { EntityConfig } from "@types";
 
 type StateChangeCallback = (
   oldState: ClimateState,
@@ -46,12 +45,8 @@ interface ClimateCommandMap {
 export class Climate<I extends `climate.${string}`> {
   private entity: BaseEntity<I, ClimateCommandMap>;
 
-  constructor(
-    private id: I,
-    client: Client,
-    config: EntityConfig = { allowNotPresent: false }
-  ) {
-    this.entity = new BaseEntity(this.id, client, config);
+  constructor(private id: I, client: Client) {
+    this.entity = new BaseEntity(this.id, client);
   }
 
   public get state(): ClimateState {

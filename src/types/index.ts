@@ -2,7 +2,6 @@ export { Expand } from "./expand";
 export { BaseState } from "./base-state";
 export { CalendarEvent } from "./calendar-event";
 export { CalendarState } from "./states/calendar-state";
-export { EntityConfig } from "./entity-config";
 export { LightState } from "./states/light-state";
 export { SwitchState } from "./states/switch-state";
 export { RawState } from "./raw-state";
