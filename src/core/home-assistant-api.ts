@@ -7,7 +7,7 @@ export class HomeAssistantApi {
 
   public constructor(private hassConfig: HassConfig) {}
 
-  public get get() {
+  public get websocket() {
     if (!this.hassApi) {
       throw new Error("Hass API has not been initialised. Please call .init()");
     }

@@ -103,7 +103,7 @@ export class Client {
   }
 
   public async callService<F>(domain: string, service: string, fields?: F) {
-    await this.hassApi.get.callService(domain, service, fields);
+    await this.hassApi.websocket.callService(domain, service, fields);
   }
 
   public removeStateChangedCallback(
@@ -144,7 +144,7 @@ export class Client {
 
   private async loadStates() {
     this.logger.debug(`Loading states`);
-    const states: RawState[] = await this.hassApi.get.getStates();
+    const states: RawState[] = await this.hassApi.websocket.getStates();
     const stateMap = new Map<string, State>();
     states
       .map((state) => this.parseState(state))
@@ -166,7 +166,7 @@ export class Client {
 
   public async init() {
     await this.hassApi.init();
-    this.hassApi.get.on("state_changed", (event) => {
+    this.hassApi.websocket.on("state_changed", (event) => {
       try {
         this.stateChangedListener(event);
       } catch (error) {
