@@ -1,13 +1,13 @@
 export { Client } from "./core/client";
 export { BaseEntity } from "./core/base-entity";
 export { HomeAssistantApi } from "./core/home-assistant-api";
-export { Calendar } from "./entities/calendar";
-export { Climate } from "./entities/climate";
 export { BaseState } from "./types/base-state";
 export { CalendarEvent } from "./types/calendar-event";
-export { CalendarState } from "./types/calendar-state";
-export { LightState } from "./types/light-state";
+export { CalendarState } from "./types/states/calendar-state";
+export { SwitchState } from "./types/states/switch-state";
+export { LightState } from "./types/states/light-state";
 export { RawState } from "./types/raw-state";
+export { Switch, Calendar, Climate } from "./entities";
 export { StateChangedEvent } from "./types/state-changed-event";
 export { StateContext } from "./types/state-context";
 export { State } from "./types/state";

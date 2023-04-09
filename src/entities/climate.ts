@@ -1,7 +1,7 @@
 import { Client, BaseEntity } from "@core";
-import { ClimateState } from "../types/climate-state";
-import { ServiceCommand } from "../core/service-command";
-import { EntityType, IdType } from "../types/entity";
+import { ClimateState } from "../types/states/climate-state";
+import { IdType } from "../types/entity";
+import { EntityConfig } from "@types";
 
 type StateChangeCallback = (
   oldState: ClimateState,
@@ -21,32 +21,41 @@ export type Expand<T> = T extends object
     : never
   : T;
 
+interface ClimateCommandMap {
+  set_hvac_mode: {
+    entity_id?: string;
+    hvac_mode: string;
+  };
+  set_preset_mode: {
+    entity_id?: string;
+    preset_mode: string;
+  };
+  set_aux_heat: {
+    entity_id?: string;
+    aux_heat: string;
+  };
+  set_temperature: {
+    entity_id?: string;
+    temperature?: number;
+    target_temp_high?: number;
+    target_temp_low?: number;
+    hvac_mode?: string;
+  };
+}
+
 export class Climate<I extends `climate.${string}`> {
-  private entity: BaseEntity<I>;
-  private setHvacModeCommand: ServiceCommand<"climate.set_hvac_mode">;
-  private setPresetModeCommand: ServiceCommand<"climate.set_preset_mode">;
-  private setAuxHeatCommand: ServiceCommand<"climate.set_aux_heat">;
-  private setTemperatureCommand: ServiceCommand<"climate.set_temperature">;
+  private entity: BaseEntity<I, ClimateCommandMap>;
 
-  constructor(private id: I, client: Client) {
-    this.entity = new BaseEntity(this.id, client);
+  constructor(
+    private id: I,
+    client: Client,
+    config: EntityConfig = { allowNotPresent: false }
+  ) {
+    this.entity = new BaseEntity(this.id, client, config);
+  }
 
-    this.setAuxHeatCommand = new ServiceCommand("climate.set_aux_heat", client);
-
-    this.setHvacModeCommand = new ServiceCommand(
-      "climate.set_hvac_mode",
-      client
-    );
-
-    this.setPresetModeCommand = new ServiceCommand(
-      "climate.set_preset_mode",
-      client
-    );
-
-    this.setTemperatureCommand = new ServiceCommand(
-      "climate.set_temperature",
-      client
-    );
+  public get state(): ClimateState {
+    return this.entity.state as ClimateState;
   }
 
   public static isId(id: IdType): id is `climate.${string}` {
@@ -54,25 +63,25 @@ export class Climate<I extends `climate.${string}`> {
   }
 
   public async setTemperature(args: SetTemperatureArgs) {
-    this.setTemperatureCommand.call({ ...args, entity_id: this.id });
+    this.entity.callService("set_temperature", { ...args, entity_id: this.id });
   }
 
   public async setAuxHeat(auxHeat: string) {
-    this.setAuxHeatCommand.call({
+    await this.entity.callService("set_aux_heat", {
       entity_id: this.id,
       aux_heat: auxHeat,
     });
   }
 
   public async setHvacMode(mode: string) {
-    this.setHvacModeCommand.call({
+    await this.entity.callService("set_hvac_mode", {
       entity_id: this.id,
       hvac_mode: mode,
     });
   }
 
   public async setPresetMode(mode: string) {
-    this.setPresetModeCommand.call({
+    await this.entity.callService("set_preset_mode", {
       entity_id: this.id,
       preset_mode: mode,
     });

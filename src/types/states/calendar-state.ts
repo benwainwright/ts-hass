@@ -1,4 +1,4 @@
-import { BaseState } from "./base-state";
+import { BaseState } from "../base-state";
 
 export interface CalendarState extends BaseState {
   state: "on" | "off";
