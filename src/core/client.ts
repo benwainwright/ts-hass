@@ -62,8 +62,10 @@ export class Client {
     throw new Error("Unrecognised ID");
   }
 
-  public getEntities<T extends ReadonlyArray<IdType>>(ids: Record<string, IdType>): Entities<T> {
-    return ids.map((id) => this.getEntity(id)) as Entities<T>;
+  public getEntities<T extends Record<string, IdType>>(ids: T): Entities<T> {
+    return Object.fromEntries(
+      Object.entries(ids).map(([key, value]) => [key, this.getEntity(value)])
+    ) as Entities<T>;
   }
 
   private constructor(private hassConfig: HassConfig, private logger: Logger) {
