@@ -17,6 +17,12 @@ export class BaseEntity<I extends string, SM = {}> {
       this._state = this.config.default;
     }
 
+    if (!this.config.default && this.config.allowNotPresent) {
+      throw new Error(
+        "You cannot configure an an entity with 'allowNotPresent' without configuring a default state"
+      );
+    }
+
     if (!state) {
       throw new Error(
         "State could not be loaded. That means either the entity id is wrong, or the client has not been initialised"
