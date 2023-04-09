@@ -13,8 +13,13 @@ export class BaseEntity<I extends string, SM = {}> {
     this.client.onStateLoaded(this.id, this.stateLoadedListener);
     const state = this.client.cachedStates().get(this.id);
 
+    this.client.onStateChanged(id, (_, newState) => {
+      this._state = newState;
+    });
+
     if (!state && this.config.default && this.config.allowNotPresent) {
       this._state = this.config.default;
+      return;
     }
 
     if (!this.config.default && this.config.allowNotPresent) {
@@ -30,10 +35,6 @@ export class BaseEntity<I extends string, SM = {}> {
     }
 
     this._state = state;
-
-    this.client.onStateChanged(id, (_, newState) => {
-      this._state = newState;
-    });
   }
 
   public async callService<S extends keyof SM>(service: S, fields: SM[S]) {
