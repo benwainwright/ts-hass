@@ -4,7 +4,7 @@ import fetch from "node-fetch-commonjs";
 type HttpMethod = "GET" | "POST";
 
 export class HomeAssistantHttpApi {
-  public constructor(private hassConfig: HassConfig, private logger: Logger) {}
+  public constructor(private hassConfig: HassConfig) {}
 
   private async request<T, B>(method: HttpMethod, path: string, body?: B) {
     const normalisedHost = this.hassConfig.host.endsWith("/")
@@ -13,7 +13,7 @@ export class HomeAssistantHttpApi {
 
     const normalisedPath = path.startsWith("/") ? path.slice(1) : path;
 
-    const url = `${normalisedHost}/${normalisedPath}`;
+    const url = `http://${normalisedHost}/${normalisedPath}`;
     const params = {
       method,
       body: JSON.stringify(body),
@@ -23,8 +23,6 @@ export class HomeAssistantHttpApi {
       },
     };
 
-    this.logger.debug(`Sending to ${url}`);
-    this.logger.debug(`Params: ${JSON.stringify(params, null, 2)}`);
     const response = await fetch(url, params);
 
     return (await response.json()) as T;

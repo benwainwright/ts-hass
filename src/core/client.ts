@@ -65,7 +65,7 @@ export class Client {
   }
 
   private constructor(private hassConfig: HassConfig, private logger: Logger) {
-    this.hassApi = new HomeAssistantApi(this.hassConfig, this.logger);
+    this.hassApi = new HomeAssistantApi(this.hassConfig);
 
     const loadStateTimers = setInterval(async () => {
       await this.loadStates();

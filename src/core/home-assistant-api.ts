@@ -1,4 +1,3 @@
-import { Logger } from "@types";
 import hass, { HassApi, HassWsOptions } from "homeassistant-ws";
 import WebSocket from "isomorphic-ws";
 import { HassConfig } from "../types/hass-config";
@@ -8,8 +7,8 @@ export class HomeAssistantApi {
   private hassApi: HassApi | undefined;
   private httpClient: HomeAssistantHttpApi;
 
-  public constructor(private hassConfig: HassConfig, private logger: Logger) {
-    this.httpClient = new HomeAssistantHttpApi(this.hassConfig, this.logger);
+  public constructor(private hassConfig: HassConfig) {
+    this.httpClient = new HomeAssistantHttpApi(this.hassConfig);
   }
 
   public get websocket() {
