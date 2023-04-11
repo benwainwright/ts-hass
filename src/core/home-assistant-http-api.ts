@@ -7,7 +7,6 @@ export class HomeAssistantHttpApi {
   public constructor(private hassConfig: HassConfig) {}
 
   private async request<T, B>(method: HttpMethod, path: string, body?: B) {
-    try {
     const normalisedHost = this.hassConfig.host.endsWith("/")
       ? this.hassConfig.host.slice(0, -1)
       : this.hassConfig.host;
@@ -24,16 +23,8 @@ export class HomeAssistantHttpApi {
       },
     };
 
-    console.log(params);
-    console.log(url);
     const response = await fetch(url, params);
-    console.log(response)
-    
-    console.log(await response.text());
     return (await response.json()) as T;
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   public async get<T>(path: string) {
