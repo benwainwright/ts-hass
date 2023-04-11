@@ -23,7 +23,9 @@ export class HomeAssistantHttpApi {
       },
     };
 
+    console.log(params);
     const response = await fetch(url, params);
+    console.log(response.text());
     return (await response.json()) as T;
   }
 
