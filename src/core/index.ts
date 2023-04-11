@@ -3,7 +3,6 @@ export {
   HASS_HOST_ENV,
   HASS_PORT_ENV,
   HASS_TOKEN_ENV,
-  HASS_PATH_ENV,
   FIVE_MINUTES,
 } from "./constants";
 export { BaseEntity } from "./base-entity";

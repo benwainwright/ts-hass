@@ -6,8 +6,8 @@ import { getConfig } from "./get-config";
 import { Entities, EntityType, IdType } from "../types/entity";
 import { Calendar, Climate } from "@entities";
 
-type StateLoadCallback = (state: State) => void;
-type StateChangedCallback = (oldState: State, newState: State) => void;
+type StateLoadCallback<S> = (state: S) => void;
+type StateChangedCallback<S> = (oldState: S, newState: S) => void;
 
 export class Client {
   private entities: Record<IdType, unknown> = {};
@@ -15,15 +15,11 @@ export class Client {
   private states: Map<string, State> = new Map<string, State>();
   private timers: NodeJS.Timer[] = [];
 
-  private stateLoadCallbacks: Map<string, StateLoadCallback[]> = new Map<
-    string,
-    StateLoadCallback[]
-  >();
+  private stateLoadCallbacks: Map<string, StateLoadCallback<unknown>[]> =
+    new Map<string, StateLoadCallback<unknown>[]>();
 
-  private stateChangedCallbacks: Map<string, StateChangedCallback[]> = new Map<
-    string,
-    StateChangedCallback[]
-  >();
+  private stateChangedCallbacks: Map<string, StateChangedCallback<unknown>[]> =
+    new Map<string, StateChangedCallback<unknown>[]>();
 
   /**
    * Create a new Hass client instance.
@@ -78,13 +74,17 @@ export class Client {
     this.timers.push(loadStateTimers);
   }
 
-  public onStateLoaded(entityId: string, callback: StateLoadCallback) {
+  public onStateLoaded<S>(entityId: string, callback: StateLoadCallback<S>) {
     const storedCallbacks = this.stateLoadCallbacks.get(entityId);
 
     this.stateLoadCallbacks.set(entityId, [
       ...(storedCallbacks ?? []),
-      callback,
+      callback as StateLoadCallback<unknown>,
     ]);
+  }
+
+  public async setState<I extends IdType, S>(entityId: I, state: S) {
+    return await this.hassApi.http.post(`states/${entityId}`, state);
   }
 
   private stateChangedListener(event: StateChangedEvent) {
@@ -94,11 +94,14 @@ export class Client {
     );
   }
 
-  public onStateChanged(entityId: string, callback: StateChangedCallback) {
+  public onStateChanged<S>(
+    entityId: string,
+    callback: StateChangedCallback<S>
+  ) {
     const storedCallbacks = this.stateLoadCallbacks.get(entityId);
     this.stateChangedCallbacks.set(entityId, [
       ...(storedCallbacks ?? []),
-      callback,
+      callback as StateChangedCallback<unknown>,
     ]);
   }
 
@@ -106,9 +109,9 @@ export class Client {
     await this.hassApi.websocket.callService(domain, service, fields);
   }
 
-  public removeStateChangedCallback(
+  public removeStateChangedCallback<S>(
     entityId: string,
-    callback: StateChangedCallback
+    callback: StateChangedCallback<S>
   ) {
     const storedCallbacks = this.stateChangedCallbacks.get(entityId);
     if (storedCallbacks) {
@@ -120,9 +123,9 @@ export class Client {
     }
   }
 
-  public removeOnStateLoadedCallback(
+  public removeOnStateLoadedCallback<S>(
     entityId: string,
-    callback: StateLoadCallback
+    callback: StateLoadCallback<S>
   ) {
     const storedCallbacks = this.stateLoadCallbacks.get(entityId);
     if (storedCallbacks) {

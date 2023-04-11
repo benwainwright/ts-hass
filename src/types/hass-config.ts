@@ -17,5 +17,10 @@ export interface HassConfig {
   /**
    * Path to Websocket API
    */
-  path: string;
+  websocketPath: string;
+
+  /**
+   * Path to HTTP API
+   */
+  httpPath: string;
 }

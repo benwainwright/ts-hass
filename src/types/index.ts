@@ -4,6 +4,7 @@ export { CalendarEvent } from "./calendar-event";
 export { CalendarState } from "./states/calendar-state";
 export { LightState } from "./states/light-state";
 export { SwitchState } from "./states/switch-state";
+export { StateForId } from "./state";
 export { RawState } from "./raw-state";
 export { Entity, IdType } from "./entity";
 export { StateChangedEvent } from "./state-changed-event";

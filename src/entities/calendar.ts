@@ -6,7 +6,7 @@ type StartEventCallback = (eventDetails: CalendarEvent) => void;
 type FinishEventCallback = () => void;
 
 export class Calendar<I extends `calendar.${string}`> {
-  private entity: BaseEntity<I>;
+  private entity: BaseEntity<I, CalendarState>;
 
   constructor(private id: I, client: Client) {
     this.entity = new BaseEntity(this.id, client);
@@ -32,8 +32,11 @@ export class Calendar<I extends `calendar.${string}`> {
   ): CalendarEvent {
     return {
       ...attributes,
-      start: new Date(attributes.start_time),
-      end: new Date(attributes.end_time),
+      message: attributes?.message ?? "",
+      description: attributes?.description ?? "",
+      location: attributes?.location ?? "",
+      start: new Date(attributes?.start_time ?? 0),
+      end: new Date(attributes?.end_time ?? 0),
     };
   }
 

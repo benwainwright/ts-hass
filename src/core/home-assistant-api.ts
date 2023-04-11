@@ -1,11 +1,15 @@
 import hass, { HassApi, HassWsOptions } from "homeassistant-ws";
 import WebSocket from "isomorphic-ws";
 import { HassConfig } from "../types/hass-config";
+import { HomeAssistantHttpApi } from "./home-assistant-http-api";
 
 export class HomeAssistantApi {
   private hassApi: HassApi | undefined;
+  private httpClient: HomeAssistantHttpApi;
 
-  public constructor(private hassConfig: HassConfig) {}
+  public constructor(private hassConfig: HassConfig) {
+    this.httpClient = new HomeAssistantHttpApi(this.hassConfig);
+  }
 
   public get websocket() {
     if (!this.hassApi) {
@@ -17,6 +21,10 @@ export class HomeAssistantApi {
 
   public close() {
     this.hassApi = undefined;
+  }
+
+  public get http() {
+    return this.httpClient;
   }
 
   public async init() {
@@ -35,7 +43,7 @@ export class HomeAssistantApi {
         host: this.hassConfig.host,
         token: this.hassConfig.token,
         port: this.hassConfig.port,
-        path: this.hassConfig.path,
+        path: this.hassConfig.websocketPath,
         ...ws,
       });
     }

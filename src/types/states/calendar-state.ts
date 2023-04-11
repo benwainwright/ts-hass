@@ -3,7 +3,7 @@ import { BaseState } from "../base-state";
 export interface CalendarState extends BaseState {
   state: "on" | "off";
   entity_id: `calendar.${string}`;
-  attributes: {
+  attributes?: Partial<{
     message: string;
     all_day: boolean;
     start_time: string;
@@ -13,5 +13,5 @@ export interface CalendarState extends BaseState {
     offset_reached: boolean;
     friendly_name: string;
     supported_features: number;
-  };
+  }>;
 }

@@ -1,6 +1,7 @@
 import { Client, BaseEntity } from "@core";
 import { ClimateState } from "../types/states/climate-state";
 import { IdType } from "../types/entity";
+import { StateForId } from "@types";
 
 type StateChangeCallback = (
   oldState: ClimateState,
@@ -43,14 +44,14 @@ interface ClimateCommandMap {
 }
 
 export class Climate<I extends `climate.${string}`> {
-  private entity: BaseEntity<I, ClimateCommandMap>;
+  private entity: BaseEntity<I, ClimateState, ClimateCommandMap>;
 
   constructor(private id: I, client: Client) {
     this.entity = new BaseEntity(this.id, client);
   }
 
-  public get state(): ClimateState {
-    return this.entity.state as ClimateState;
+  public get state() {
+    return this.entity.state;
   }
 
   public static isId(id: IdType): id is `climate.${string}` {

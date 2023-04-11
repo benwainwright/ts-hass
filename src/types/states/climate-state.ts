@@ -3,7 +3,7 @@ import { BaseState } from "@types";
 export interface ClimateState extends BaseState {
   state: "heat" | "cool" | "off";
   entity_id: `climate.${string}`;
-  attributes: {
+  attributes?: Partial<{
     hvac_modes: string[];
     min_temp: number;
     max_temp: number;
@@ -16,5 +16,5 @@ export interface ClimateState extends BaseState {
     icon: string;
     friendly_name: string;
     supported_features: number;
-  };
+  }>;
 }

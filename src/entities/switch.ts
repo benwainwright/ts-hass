@@ -19,7 +19,7 @@ type StateChangeCallback = (
 ) => void;
 
 export class Switch<I extends `switch.${string}`> {
-  private entity: BaseEntity<I, SwitchServiceMap>;
+  private entity: BaseEntity<I, SwitchState, SwitchServiceMap>;
 
   constructor(private id: I, client: Client) {
     this.entity = new BaseEntity(this.id, client);
@@ -30,18 +30,18 @@ export class Switch<I extends `switch.${string}`> {
   }
 
   public async turnOn() {
-    await this.entity.callService("turn_on", {
-      entity_id: this.id,
+    await this.entity.setState({
+      state: "on",
     });
   }
 
   public get state() {
-    return this.entity.state as SwitchState;
+    return this.entity.state;
   }
 
   public async turnOff() {
-    await this.entity.callService("turn_off", {
-      entity_id: this.id,
+    await this.entity.setState({
+      state: "off",
     });
   }
 
