@@ -13,7 +13,7 @@ export class HomeAssistantHttpApi {
 
     const normalisedPath = path.startsWith("/") ? path.slice(1) : path;
 
-    const url = `http://${normalisedHost}/${normalisedPath}`;
+    const url = `http://${normalisedHost}${this.hassConfig.httpPath}/${normalisedPath}`;
     const params = {
       method,
       body: JSON.stringify(body),
@@ -24,7 +24,6 @@ export class HomeAssistantHttpApi {
     };
 
     const response = await fetch(url, params);
-
     return (await response.json()) as T;
   }
 
