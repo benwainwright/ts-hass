@@ -1,10 +1,10 @@
-import { HassConfig } from "@types";
+import { HassConfig, Logger } from "@types";
 import fetch from "node-fetch-commonjs";
 
 type HttpMethod = "GET" | "POST";
 
 export class HomeAssistantHttpApi {
-  public constructor(private hassConfig: HassConfig) {}
+  public constructor(private hassConfig: HassConfig, private logger: Logger) {}
 
   private async request<T, B>(method: HttpMethod, path: string, body?: B) {
     const normalisedHost = this.hassConfig.host.endsWith("/")
@@ -14,24 +14,27 @@ export class HomeAssistantHttpApi {
     const normalisedPath = path.startsWith("/") ? path.slice(1) : path;
 
     const url = `${normalisedHost}/${normalisedPath}`;
-
-    const response = await fetch(url, {
+    const params = {
       method,
       body: JSON.stringify(body),
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${this.hassConfig.token}`,
       },
-    });
+    };
 
-    (await response.json()) as T;
+    this.logger.debug(`Sending to ${url}`);
+    this.logger.debug(`Params: ${JSON.stringify(params, null, 2)}`);
+    const response = await fetch(url, params);
+
+    return (await response.json()) as T;
   }
 
   public async get<T>(path: string) {
-    return this.request<T, {}>("GET", path);
+    return await this.request<T, {}>("GET", path);
   }
 
   public async post<T, B>(path: string, body: B) {
-    return this.request<T, B>("POST", path, body);
+    return await this.request<T, B>("POST", path, body);
   }
 }

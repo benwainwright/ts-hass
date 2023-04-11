@@ -1,7 +1,6 @@
 import { Client, BaseEntity } from "@core";
 import { ClimateState } from "../types/states/climate-state";
 import { IdType } from "../types/entity";
-import { StateForId } from "@types";
 
 type StateChangeCallback = (
   oldState: ClimateState,
