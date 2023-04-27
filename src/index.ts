@@ -10,6 +10,7 @@ export { RawState } from "./types/raw-state";
 export { Switch, Calendar, Climate } from "./entities";
 export { StateChangedEvent } from "./types/state-changed-event";
 export { StateContext } from "./types/state-context";
+export { InputBooleanState } from "./types/states/input-boolean-state";
 export { State } from "./types/state";
 export { Logger } from "./types/logger";
 export { HassConfig } from "./types/hass-config";
