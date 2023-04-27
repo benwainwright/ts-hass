@@ -1,32 +1,36 @@
 import { BaseEntity, Client } from "@core";
-import { IdType, SwitchState } from "@types";
+import { IdType, InputBooleanState } from "@types";
 
-interface SwitchServiceMap {
+interface InputBooleanServiceMap {
   turn_on: {
     entity_id?: string;
+    area_id?: string;
   };
   turn_off: {
     entity_id?: string;
+    area_id?: string;
   };
   toggle: {
     entity_id?: string;
+    area_id?: string;
   };
+  reload: {};
 }
 
 type StateChangeCallback = (
-  oldState: SwitchState,
-  newState: SwitchState
+  oldState: InputBooleanState,
+  newState: InputBooleanState
 ) => void;
 
-export class Switch<I extends `switch.${string}`> {
-  private entity: BaseEntity<I, SwitchState, SwitchServiceMap>;
+export class InputBoolean<I extends `input_boolean.${string}`> {
+  private entity: BaseEntity<I, InputBooleanState, InputBooleanServiceMap>;
 
   constructor(private id: I, client: Client) {
     this.entity = new BaseEntity(this.id, client);
   }
 
-  public static isId(id: IdType): id is `switch.${string}` {
-    return id.startsWith("switch.");
+  public static isId(id: IdType): id is `input_boolean.${string}` {
+    return id.startsWith("input_boolean.");
   }
 
   public async turnOn() {

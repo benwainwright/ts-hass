@@ -1,9 +1,10 @@
-import { Calendar, Climate, Switch } from "@entities";
+import { Calendar, Climate, InputBoolean, Switch } from "@entities";
 
 export type Entity =
   | typeof Calendar<`calendar.${string}`>
   | typeof Climate<`climate.${string}`>
-  | typeof Switch<`switch.${string}`>;
+  | typeof Switch<`switch.${string}`>
+  | typeof InputBoolean<`input_boolean.${string}`>;
 
 type GetIdTypes<T extends abstract new (...args: any[]) => any> = T extends any
   ? ConstructorParameters<T>[0]
