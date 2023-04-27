@@ -174,7 +174,7 @@ export class Client {
         this.stateChangedListener(event);
       } catch (error) {
         if (error instanceof Error) {
-          this.logger.error(error.message);
+          this.logger.error(error);
         }
       }
     });
